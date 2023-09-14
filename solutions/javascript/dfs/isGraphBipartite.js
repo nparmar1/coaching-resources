@@ -36,12 +36,7 @@ const isBipartite = (graph) => {
     for (let node = 0; node < numNodes; node += 1) {
         if (visited[node] !== UNVISITED) continue;
 
-        const curComponentIsBipartite = checkIfIsBipartite(
-            graph,
-            node,
-            visited,
-            SET_B,
-        );
+        const curComponentIsBipartite = checkIfIsBipartite(graph, node, visited, SET_B);
         if (!curComponentIsBipartite) return false;
     }
 

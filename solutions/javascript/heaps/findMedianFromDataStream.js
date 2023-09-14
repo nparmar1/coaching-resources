@@ -240,29 +240,29 @@ class MedianFinder {
         this.lowerHalf = new MaxHeap();
         this.higherHalf = new MinHeap();
     }
-    
+
     balanceHalves(halfOne, halfTwo) {
         halfOne.push(halfTwo.pop());
     }
-    
+
     addNum(number) {
         this.lowerHalf.push(number);
-        
+
         this.balanceHalves(this.higherHalf, this.lowerHalf);
-        
+
         const higherHalfHasMedian = this.lowerHalf.size() < this.higherHalf.size();
         if (!higherHalfHasMedian) return;
-        
+
         this.balanceHalves(this.lowerHalf, this.higherHalf);
     }
-    
+
     findMedian() {
         const lowerMiddleValue = this.lowerHalf.peek();
         const higherMiddleValue = this.higherHalf.peek();
-        
+
         const lowerHalfHasMedian = this.lowerHalf.size() > this.higherHalf.size();
         if (lowerHalfHasMedian) return lowerMiddleValue;
-        
+
         return (lowerMiddleValue + higherMiddleValue) / 2;
     }
 }

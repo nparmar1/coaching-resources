@@ -63,8 +63,7 @@ const getFirstIslandPoints = (grid, startRow, startCol) => {
                 adjacentPositionCol,
             );
 
-            if (grid[adjacentPositionRow][adjacentPositionCol] !== LAND)
-                continue;
+            if (grid[adjacentPositionRow][adjacentPositionCol] !== LAND) continue;
 
             if (visited.has(adjacentPositionString)) continue;
             visited.add(adjacentPositionString);

@@ -14,8 +14,7 @@ const markProvinceAsVisited = (visited, city, isConnected) => {
         potentialNeighborCity < isConnected.length;
         potentialNeighborCity++
     ) {
-        const isNeighbor =
-            isConnected[city][potentialNeighborCity] === CONNECTED;
+        const isNeighbor = isConnected[city][potentialNeighborCity] === CONNECTED;
 
         if (!isNeighbor) continue;
 

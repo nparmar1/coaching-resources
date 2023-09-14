@@ -1,8 +1,18 @@
 /*
-You'll be given an actor's name as your input, and you must return that actor's bacon number. An actor's bacon number is defined as the minimum number of degrees of separation between that actor and "Kevin Bacon". For example, if A worked with B and B worked with "Kevin Bacon", you would say A has a bacon number of 2. For this question, you'll automatically have access to a utility function "getActorsWhoHaveWorkedWith" that will take in an actor's name as a string and return an array of strings representing actors that the input actor has worked with.
-*/
 
-const { Queue } = require('../utils/queue');
+actor name as input, must return actor's bacon number
+
+actor name is min requirement to close to kevin bacon
+
+for expamle a worked with b and b worked with KB, min input would be 2
+
+actor will have a reltionship with one actor and vice versa
+
+
+kevin bacon - carly 
+
+kevin - fred - emma - richard
+
 
 const actorGraph = {
     'Kevin Bacon': ['Carly', 'Fred', 'Isabella'],
@@ -35,14 +45,38 @@ const actorGraph = {
     Kate: ['Jennifer'],
 };
 
+
+*/
+
 const getActorsWhoHaveWorkedWith = (actor) => {
     if (!actorGraph.hasOwnProperty(actor)) return [];
 
     return actorGraph[actor];
 };
 
-// TODO: write your code here
+const getBaconNumber = (initialActor) => {
+    const queue = new Queue();
+    const visited = new Set();
 
-console.log(`Your answer: ${getBaconNumber('Grace')}`);
-console.log(`Correct answer: ${3}`);
-console.log();
+    visited.add(initialActor);
+    queue.enqueue({ actor: initialActor, pathSofar: 0 });
+
+    while (queue.size() > 0) {
+        const { actor, pathSofar } = queue.dequeue();
+
+        // Process node
+        console.log(actor);
+        const isKevin = actor === targetActor;
+        if (isKevin) return pathSofar;
+
+        const children = getActorsWhoHaveWorkedWith(actor);
+        for (const child of children) {
+            if (visited.has(child)) continue;
+
+            visited.add(child);
+            queue.enqueue({ actor: child, pathSofar: pathSofar + 1 });
+        }
+    }
+
+    return NO_ACTOR_FOUND;
+};

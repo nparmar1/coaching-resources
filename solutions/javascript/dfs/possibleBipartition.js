@@ -17,7 +17,7 @@ const buildGraph = (numNodes, edges) => {
         graph[nodeOne].push(nodeTwo);
         graph[nodeTwo].push(nodeOne);
     }
-
+    console.log(graph);
     return graph;
 };
 

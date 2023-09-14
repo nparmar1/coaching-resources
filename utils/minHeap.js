@@ -124,20 +124,22 @@ class MinHeap {
     }
 }
 
-let minHeap = new MinHeap([90, 5, 100]);
+module.exports = { MinHeap };
 
-minHeap.push(15);
-minHeap.push(25);
-minHeap.push(35);
+// let minHeap = new MinHeap([90, 5, 100]);
 
-console.log(minHeap.getElements()); // [5,15,35,90,25,100]
-console.log(minHeap.size()); // 6
-console.log(minHeap.pop()); // 5
-console.log(minHeap.pop()); // 15
-console.log(minHeap.size()); // 4
+// minHeap.push(15);
+// minHeap.push(25);
+// minHeap.push(35);
 
-console.log(minHeap);
+// console.log(minHeap.getElements()); // [5,15,35,90,25,100]
+// console.log(minHeap.size()); // 6
+// console.log(minHeap.pop()); // 5
+// console.log(minHeap.pop()); // 15
+// console.log(minHeap.size()); // 4
 
-minHeap = new MinHeap([2, 3]);
-minHeap.push(1);
-console.log(minHeap.pop()); // 1
+// console.log(minHeap);
+
+// minHeap = new MinHeap([2, 3]);
+// minHeap.push(1);
+// console.log(minHeap.pop()); // 1

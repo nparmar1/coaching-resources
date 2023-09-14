@@ -1,16 +1,49 @@
 /*
-The file directory system on your computer has been corrupted by a virus. Random files have been copied throughout, and files are have been moved to new locations. You need your team's new engineer to go through and find certain files, but they don't want to do it because they're worried that they might have to go very deep into the file directory system to find files.
+The file directory system on your computer has been corrupted by a virus. Random files have been copied throughout, and files are have been moved to new locations. 
+You need your team's new engineer to go through and find certain files, but they don't want to do it because they're worried that they might have to go very deep into the file directory system to find files.
 
 You need to convince them that they will NOT need to go that deep. To do so, you'll compute the deepest that they will need to go.
 
-You'll be given a list of required files, a hash map that maps directory names to a list of elements that are in that directory (these will either be directories themselves or filenames), and lastly you'll be given a string representing the directory that you start in.
+You'll be given a list of required files, a hash map that maps directory names to a list of elements that are in that directory (these will either be directories themselves or filenames), 
+and lastly you'll be given a string representing the directory that you start in.
 
-You must return the minimum depth that your new engineer must go through to find all of the required files. You can assume that this is structured like a normal file system (it's impossible that inside of directory A you have directory B, but inside of directory B you have directory A).
+You must return the minimum depth that your new engineer must go through to find all of the required files. 
+You can assume that this is structured like a normal file system (it's impossible that inside of directory A you have directory B, but inside of directory B you have directory A).
 */
 
-const { Queue } = require('../../utils/queue');
+const { Queue } = require('../../../utils/queue');
 
-// TODO: write your code here
+const SOME_FILES_ARE_MISSING = -1;
+
+const getMinDepthToFindAllFiles = (directoryStructure, requiredFiles, initialRootDirectory) => {
+    const queue = new Queue();
+    const requiredFilesSet = new Set(requiredFiles);
+    const visited = new Set();
+
+    visited.add(rootDirectory);
+    queue.enqueue({ rootDirectory: initialRootDirectory, depthSoFar: 0 });
+
+    while (queue.size() > 0) {
+        const { rootDirectory, depthSoFar } = queue.dequeue();
+
+        // Process node
+        if (requiredFilesSet.has(rootDirectory)) requiredFilesSet.delete(rootDirectory);
+        if (requiredFilesSet.size === 0) return depthSoFar;
+
+        const hasProperty = directoryStructure.hasOwnProperty(rootDirectory);
+        if (!hasProperty) continue;
+
+        const children = directoryStructure[rootDirectory];
+        for (child of children) {
+            if (visited.has(child)) continue;
+
+            visited.has(child);
+            queue.enqueue({ rootDirectory: child, depthSoFar: depthSoFar + 1 });
+        }
+    }
+
+    return SOME_FILES_ARE_MISSING;
+};
 
 const directoryStructure = {
     A: ['B', 'C'],

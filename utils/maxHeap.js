@@ -116,15 +116,16 @@ class MaxHeap {
         return this.elements;
     }
 }
+module.exports = { MaxHeap };
 
-const maxHeap = new MaxHeap([90, 5, 10]);
+// const maxHeap = new MaxHeap([90, 5, 10]);
 
-maxHeap.push(15);
-maxHeap.push(25);
-maxHeap.push(35);
+// maxHeap.push(15);
+// maxHeap.push(25);
+// maxHeap.push(35);
 
-console.log(maxHeap.getElements()); // [90,15,35,5,25,10]
-console.log(maxHeap.size()); // 6
-console.log(maxHeap.pop()); // 90
-console.log(maxHeap.pop()); // 35
-console.log(maxHeap.size()); // 4
+// console.log(maxHeap.getElements()); // [90,15,35,5,25,10]
+// console.log(maxHeap.size()); // 6
+// console.log(maxHeap.pop()); // 90
+// console.log(maxHeap.pop()); // 35
+// console.log(maxHeap.size()); // 4

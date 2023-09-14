@@ -78,10 +78,7 @@ const maximumDetonation = (bombs) => {
         const visited = new Set();
         const numBombsCanDetonate = getComponentSize(graph, id, visited);
 
-        maxBombsCanDetonate = Math.max(
-            maxBombsCanDetonate,
-            numBombsCanDetonate,
-        );
+        maxBombsCanDetonate = Math.max(maxBombsCanDetonate, numBombsCanDetonate);
     }
 
     return maxBombsCanDetonate;
