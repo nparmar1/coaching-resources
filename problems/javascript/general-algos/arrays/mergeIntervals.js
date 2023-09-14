@@ -4,32 +4,35 @@ Given an array of intervals where intervals[i] = [starti, endi], merge all overl
 return an array of the non-overlapping intervals that cover all the intervals in the input.
 */
 
+// [[8, 10], [2, 6], [15, 18], [1, 3],]
+// [[1, 3], [2, 6], [8, 10], [15, 18]]
+
 const START_IDX = 0;
 const END_IDX = 1;
 
 const merge = (intervals) => {
+    const mergedIntervals = [];
+
     const sortedIntervals = intervals.sort(
         (intervalOne, intervalTwo) => intervalOne[START_IDX] - intervalTwo[START_IDX],
     );
 
-    const mergedIntervals = [];
-
-    for (const newInterval of sortedIntervals) {
-        const [newIntervalStartTime, newIntervalEndTime] = newInterval;
+    for (const interval of sortedIntervals) {
+        const [firstIntervalTime, secondIntervalTime] = interval;
 
         if (mergedIntervals.length === 0) {
-            mergedIntervals.push(newInterval);
+            mergedIntervals.push(interval);
             continue;
         }
 
-        const lastIdx = mergedIntervals.length - 1;
-        const lastInterval = mergedIntervals[lastIdx];
+        const lastIntervalIdx = mergedIntervals.length - 1;
+        const lastInterval = mergedIntervals[lastIntervalIdx];
         const lastIntervalEndTime = lastInterval[END_IDX];
 
-        if (newIntervalStartTime <= lastIntervalEndTime) {
-            lastInterval[END_IDX] = Math.max(newIntervalEndTime, lastIntervalEndTime);
+        if (firstIntervalTime <= lastIntervalEndTime) {
+            lastInterval[END_IDX] = Math.max(secondIntervalTime, lastIntervalEndTime);
         } else {
-            mergedIntervals.push(newInterval);
+            mergedIntervals.push(interval);
         }
     }
 
