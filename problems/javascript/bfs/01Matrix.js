@@ -7,58 +7,24 @@ The distance between two adjacent cells is 1.
 
 const { Queue } = require('../../../utils/queue');
 
-//    0  1  2
-// 0 [0, 0, 0],
-// 1 [0, 1, 0],
-// 2 [1, 1, 1],
+const ZERO = 0;
 
 const directions = [
+    [1, 0],
+    [0, 1],
     [-1, 0],
     [0, -1],
-    [0, 1],
-    [1, 0],
 ];
 
-const getRowColString = (rowCol) => {
-    const { row, col } = rowCol;
+const getRowColString = ({ row, col }) => `${row}, ${col}`;
 
-    return `${row}, ${col}`;
-};
-
-const getZeroFilledMatrix = (grid, fillWithValue) => {
+const isBound = (row, col, grid) => {
     const numRows = grid.length;
     const numCols = grid[0].length;
 
-    const array = new Array(numRows);
-    for (let row = 0; row < numRows; row++) {
-        array[row] = new Array(numCols).fill(fillWithValue);
-    }
-
-    return array;
-};
-
-const getZeroLocations = (grid) => {
-    const locations = [];
-    const numRows = grid.length;
-    const numCols = grid[0].length;
-
-    for (let row = 0; row < numRows; row++) {
-        for (let col = 0; col < numCols; col++) {
-            if (grid[row][col] === 0) locations.push({ row, col });
-        }
-    }
-
-    return locations;
-};
-
-const isInBound = (row, col, grid) => {
-    const numRows = grid.length;
-    const numCols = grid[0].length;
-
-    const isRowInBound = row >= 0 && row < numRows;
-    const isColInBound = col >= 0 && col < numCols;
-
-    return isRowInBound && isColInBound;
+    const isRowBound = row >= 0 && row < numRows;
+    const isColBound = col >= 0 && col < numCols;
+    return isRowBound && isColBound;
 };
 
 const getChildren = (row, col, grid) => {
@@ -70,7 +36,7 @@ const getChildren = (row, col, grid) => {
         const newRow = row + rowDir;
         const newCol = col + colDir;
 
-        if (!isInBound(newRow, newCol, grid) || grid[newRow][newCol] === 0) continue;
+        if (!isBound(newRow, newCol, grid) || grid[newRow][newCol] === ZERO) continue;
 
         children.push({ row: newRow, col: newCol });
     }
@@ -78,32 +44,60 @@ const getChildren = (row, col, grid) => {
     return children;
 };
 
-const getDistanceFromZero = (grid) => {
-    const queue = new Queue();
-    const visited = new Set();
+const getZeroLocations = (grid) => {
+    const numRows = grid.length;
+    const numCols = grid[0].length;
 
-    const zeroFilledGrid = getZeroFilledMatrix(grid, 0);
+    const zeroLocations = [];
+
+    for (let row = 0; row < numRows; row++) {
+        for (let col = 0; col < numCols; col++) {
+            if (grid[row][col] === ZERO) zeroLocations.push({ row, col });
+        }
+    }
+
+    return zeroLocations;
+};
+
+const getZeroFilledGrid = (grid) => {
+    const numRows = grid.length;
+    const numCols = grid[0].length;
+
+    const array = new Array(numRows);
+
+    for (let row = 0; row < numRows; row++) {
+        array[row] = new Array(numCols).fill(0);
+    }
+
+    return array;
+};
+
+const getDistanceFromZero = (grid) => {
+    const zeroFilledGrid = getZeroFilledGrid(grid);
     const zeroLocations = getZeroLocations(grid);
+
+    const queue = [];
+    const visited = new Set();
 
     for (const zeroLocation of zeroLocations) {
         visited.add(getRowColString(zeroLocation));
-        queue.enqueue({ ...zeroLocation, distanceFromZero: 0 });
+        queue.push({ ...zeroLocation, distanceFromZero: 0 });
     }
 
-    while (queue.size() > 0) {
+    while (queue.length > 0) {
         // Remove row, col
-        const { row, col, distanceFromZero } = queue.dequeue();
+        const { row, col, distanceFromZero } = queue.shift();
 
         // Process row, col
-        if (grid[row][col] === 1) zeroFilledGrid[row][col] = distanceFromZero;
+        zeroFilledGrid[row][col] = distanceFromZero;
 
         // Get children
         const children = getChildren(row, col, grid);
         for (const child of children) {
             if (visited.has(getRowColString(child))) continue;
-
             visited.add(getRowColString(child));
-            queue.enqueue({ ...child, distanceFromZero: distanceFromZero + 1 });
+
+            queue.push({ ...child, distanceFromZero: distanceFromZero + 1 });
         }
     }
 
